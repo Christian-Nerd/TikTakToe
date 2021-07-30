@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 public class TikTakToe
 {
     static ArrayList<Integer> playerPositions = new ArrayList<Integer>();
+    static ArrayList<Integer> player2Positions = new ArrayList<Integer>();
     static ArrayList<Integer> cpuPositions = new ArrayList<Integer>();
     public static void main(String[] args)
     {
@@ -17,43 +18,88 @@ public class TikTakToe
         while(true)
         {
             Scanner scan = new Scanner(System.in);
-            System.out.println("Enter your placement (1-9):");
-            int playerPos = scan.nextInt();
-            while(playerPositions.contains(playerPos) || cpuPositions.contains(playerPositions))
+            System.out.println("User to play tik take toe do you want to play aganist cpu or.... another player");
+            String choice = scan.nextLine().toLowerCase();
+            if(choice == "player" || choice == "another player" || choice == "anotherplayer")
             {
-                System.out.println("Position taken! Enter a correct Position");
-                playerPos = scan.nextInt();
-            }
-            if (playerPos > 9 || playerPos < 1)
-            {
-                System.out.println("Invalid Position input a playerPosition between 1-9");
-                playerPos = scan.nextInt();
+                System.out.println("Enter your placement (1-9) Player 1:");
+                int playerPos = scan.nextInt();
+                while (playerPositions.contains(playerPos) || cpuPositions.contains(playerPositions) || player2Positions.contains(playerPositions) || playerPositions.contains(player2Positions))
+                {
+                    System.out.println("Position taken! Enter a correct Position");
+                    playerPos = scan.nextInt();
+                }
+                if (playerPos > 9 || playerPos < 1)
+                {
+                    System.out.println("Invalid Position input a playerPosition between 1-9");
+                    playerPos = scan.nextInt();
+                }
+
+                placePiece(gameBoard, playerPos, "player");
+                Random rand = new Random();
+                int player2Pos = scan.nextInt();
+                System.out.println("Enter your placement (1-9) Player 2:");
+                while (playerPositions.contains(player2Positions) || cpuPositions.contains(playerPositions))
+                {
+                    System.out.println("Position taken! Enter a correct Position");
+                }
+                placePiece(gameBoard, player2Pos, "player2");
+                printGameBoard(gameBoard);
+                String result = checkWinner();
+                System.out.println(result);
+                System.out.println("Want to play again? Y/N");
+                choice = scan.nextLine().toLowerCase();
+                boolean choseToPlay = false;
+                choseToPlay = choice == "y" || choice == "yes" ? true : false;
+                if (choseToPlay)
+                {
+                    continue game;
+                } else
+                {
+                    break game;
+                }
             }
 
-            placePiece(gameBoard, playerPos, "player");
-            Random rand = new Random();
-            int cpuPos = rand.nextInt(9) + 1;
-            while(playerPositions.contains(cpuPos) || cpuPositions.contains(cpuPositions))
-            {
-                System.out.println("Position taken! Enter a correct Position");
-                cpuPos = rand.nextInt(9)+1;
-            }
-            placePiece(gameBoard, cpuPos, "cpu");
-            printGameBoard(gameBoard);
-            String result = checkWinner();
-            System.out.println(result);
-            System.out.println("Want to play again? Y/N");
-            String choice = scan.nextLine().toLowerCase();
-            boolean choseToPlay = false;
-            choseToPlay = choice == "y" || choice == "yes"? true : false;
-            if (choseToPlay)
-            {
-                continue game;
-            }
-            else
-            {
-                break game;
-            }
+          if(choice == "cpu")
+          {
+              System.out.println("Enter your placement (1-9):");
+              int playerPos = scan.nextInt();
+              while (playerPositions.contains(playerPos) || cpuPositions.contains(playerPositions) || player2Positions.contains(playerPositions) || playerPositions.contains(player2Positions))
+              {
+                  System.out.println("Position taken! Enter a correct Position");
+                  playerPos = scan.nextInt();
+              }
+              if (playerPos > 9 || playerPos < 1)
+              {
+                  System.out.println("Invalid Position input a playerPosition between 1-9");
+                  playerPos = scan.nextInt();
+              }
+
+              placePiece(gameBoard, playerPos, "player");
+              Random rand = new Random();
+              int cpuPos = rand.nextInt(9) + 1;
+              while (playerPositions.contains(cpuPos) || cpuPositions.contains(cpuPositions))
+              {
+                  System.out.println("Position taken! Enter a correct Position");
+                  cpuPos = rand.nextInt(9) + 1;
+              }
+              placePiece(gameBoard, cpuPos, "cpu");
+              printGameBoard(gameBoard);
+              String result = checkWinner();
+              System.out.println(result);
+              System.out.println("Want to play again? Y/N");
+              choice = scan.nextLine().toLowerCase();
+              boolean choseToPlay = false;
+              choseToPlay = choice == "y" || choice == "yes" ? true : false;
+              if (choseToPlay)
+              {
+                  continue game;
+              }
+              else
+              {
+                  break game;
+              }
+          }
         }
     }
 
@@ -83,6 +129,11 @@ public class TikTakToe
         {
             symbol = '0';
             cpuPositions.add(playerPos);
+        }
+        else if(user.equals("player2"))
+        {
+            symbol = '0';
+            player2Positions.add(playerPos);
         }
         switch(playerPos)
         {
