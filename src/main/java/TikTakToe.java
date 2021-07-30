@@ -1,8 +1,6 @@
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import static java.lang.Thread.sleep;
-
 public class TikTakToe
 {
     static ArrayList<Integer> playerPositions = new ArrayList<Integer>();
@@ -15,6 +13,7 @@ public class TikTakToe
                         {' ', '|', ' ', '|', ' '},
                         {'-', '+', '-', '+', '-'},
                         {' ', '|', ' ', '|', ' '}};
+        game:
         while(true)
         {
             Scanner scan = new Scanner(System.in);
@@ -43,6 +42,18 @@ public class TikTakToe
             printGameBoard(gameBoard);
             String result = checkWinner();
             System.out.println(result);
+            System.out.println("Want to play again? Y/N");
+            String choice = scan.nextLine().toLowerCase();
+            boolean choseToPlay = false;
+            choseToPlay = choice == "y" || choice == "yes"? true : false;
+            if (choseToPlay)
+            {
+                continue game;
+            }
+            else
+            {
+                break game;
+            }
         }
     }
 
