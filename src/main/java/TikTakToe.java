@@ -20,7 +20,7 @@ public class TikTakToe
             Scanner scan = new Scanner(System.in);
             System.out.println("User to play tik take toe do you want to play aganist cpu or.... another player");
             String choice = scan.nextLine().toLowerCase();
-            if(choice == "player" || choice == "another player" || choice == "anotherplayer")
+            while(choice.equals("player") || choice.equals("another player") || choice.equals("anotherplayer"))
             {
                 System.out.println("Enter your placement (1-9) Player 1:");
                 int playerPos = scan.nextInt();
@@ -60,7 +60,7 @@ public class TikTakToe
                 }
             }
 
-          if(choice == "cpu")
+          while(choice.equals("cpu"))
           {
               System.out.println("Enter your placement (1-9):");
               int playerPos = scan.nextInt();
