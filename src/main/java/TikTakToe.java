@@ -1,15 +1,17 @@
 import java.util.*;
 
+import static java.lang.System.*;
+
 public class TikTakToe
 {
     static ArrayList<Integer> playerPositions = new ArrayList<Integer>();
     static ArrayList<Integer> player2Positions = new ArrayList<Integer>();
     static ArrayList<Integer> cpuPositions = new ArrayList<Integer>();
-    static String result = checkWinner();
     public static void main(String[] args)
     {
+        Scanner scan = new Scanner(in);
         char[][] gameBoard =
-                {{' ', '|', ' ', '|', ' '},
+                        {{' ', '|', ' ', '|', ' '},
                         {'-', '+', '-', '+', '-'},
                         {' ', '|', ' ', '|', ' '},
                         {'-', '+', '-', '+', '-'},
@@ -17,7 +19,7 @@ public class TikTakToe
         game:
         while (true)
         {
-            Scanner scan = new Scanner(System.in);
+            String result = "";
             System.out.println("User to play tiktaktoe do you want to play aganist cpu or.... another player?");
             String choice = scan.nextLine().toLowerCase();
             while (choice.equals("player") || choice.equals("another player") || choice.equals("anotherplayer"))
@@ -37,15 +39,12 @@ public class TikTakToe
                 placePiece(gameBoard, playerPos, "player");
                 printGameBoard(gameBoard);
                 result = checkWinner();
-                if(result.equals("") != true)
+                choice = scan.nextLine().toLowerCase();
+                boolean choseToPlay = false;
+                choseToPlay = choice == "y" || choice == "yes" ? true : false;
+                if(result != "")
                 {
-                    System.out.println(result);
-                    System.out.println("");
-                    System.out.println("Want to play again? Y/N");
-                    choice = scan.nextLine().toLowerCase();
-                    boolean choseToPlay = false;
-                    choseToPlay = choice == "y" || choice == "yes" ? true : false;
-                    if (choseToPlay)
+                    if (doesUserPlayAgain(choice, scan))
                     {
                         continue game;
                     } else
@@ -61,23 +60,21 @@ public class TikTakToe
                 }
                 placePiece(gameBoard, player2Pos, "player2");
                 printGameBoard(gameBoard);
-           if(result.equals("") != true)
-           {
-               System.out.println(result);
-               System.out.println("");
-               System.out.println("Want to play again? Y/N");
-               choice = scan.nextLine().toLowerCase();
-               boolean choseToPlay = false;
-               choseToPlay = choice == "y" || choice == "yes" ? true : false;
-               if (choseToPlay)
-               {
-                   continue game;
-               } else
-               {
-                   break game;
-               }
-           }
-       }
+                result = checkWinner();
+                choice = scan.nextLine().toLowerCase();
+                choseToPlay = false;
+                choseToPlay = choice == "y" || choice == "yes" ? true : false;
+                if(result != "")
+                {
+                    if (doesUserPlayAgain(choice, scan))
+                    {
+                        continue game;
+                    } else
+                    {
+                        break game;
+                    }
+                }
+            }
 
 
             while (choice.equals("cpu"))
@@ -106,15 +103,22 @@ public class TikTakToe
                 }
                 placePiece(gameBoard, cpuPos, "cpu");
                 printGameBoard(gameBoard);
-                if(result.equals("") != true)
+                if(result != "")
                 {
-                    System.out.println("......");
-                    System.out.println();
-                    System.out.println("Want to play again? Y/N");
-                    choice = scan.nextLine().toLowerCase();
-                    boolean choseToPlay = false;
-                    choseToPlay = choice == "y" || choice == "yes" ? true : false;
-                    if (choseToPlay)
+                    if (doesUserPlayAgain(choice, scan))
+                    {
+                        continue game;
+                    } else
+                    {
+                        break game;
+                    }
+                }
+                choice = scan.nextLine().toLowerCase();
+                boolean choseToPlay = false;
+                choseToPlay = choice.equals("y") || choice.equals("yes");
+                if(result != "")
+                {
+                    if (doesUserPlayAgain(choice, scan))
                     {
                         continue game;
                     } else
@@ -126,13 +130,14 @@ public class TikTakToe
         }
     }
 
+
     public static void printGameBoard(char[][] gameBoard)
     {
         for (char[] row : gameBoard)
         {
             for (char c : row)
             {
-                System.out.print(c);
+                out.print(c);
             }
             System.out.println();
         }
@@ -142,18 +147,20 @@ public class TikTakToe
     public static void placePiece(char[][] gameBoard, int playerPos, String user)
     {
         char symbol = ' ';
-        if (user.equals("player"))
+        switch(user)
         {
+        case "player":
             symbol = 'X';
             playerPositions.add(playerPos);
-        } else if (user.equals("cpu"))
-        {
+            break;
+        case "cpu":
             symbol = '0';
             cpuPositions.add(playerPos);
-        } else if (user.equals("player2"))
-        {
+            break;
+        case "player2":
             symbol = '0';
             player2Positions.add(playerPos);
+            break;
         }
         switch (playerPos)
         {
@@ -221,6 +228,22 @@ public class TikTakToe
             }
         }
         return "";
+    }
+
+    public static boolean doesUserPlayAgain(String Choice, Scanner scan)
+    {
+            String result = checkWinner();
+            System.out.println(result);
+            System.out.println();
+            System.out.println("Want to play again? Y/N");
+            Choice = scan.nextLine().toLowerCase();
+            boolean choseToPlay;
+            choseToPlay = Choice.equals("y") || Choice.equals("yes") ? true : false;
+            if (choseToPlay)
+            {
+                return true;
+            }
+        return false;
     }
 }
 
